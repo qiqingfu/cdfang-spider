@@ -54,7 +54,7 @@ const CurrentHouse: React.FunctionComponent = () => {
 
   const result =
     currentHouses.length > 0 ? (
-      <Collapse defaultActiveKey={['1']}>
+      <Collapse defaultActiveKey={['1']} bordered={false}>
         <Collapse.Panel
           header="正在登记"
           key="1"

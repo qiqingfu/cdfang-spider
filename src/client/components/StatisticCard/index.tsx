@@ -11,9 +11,21 @@ const { useContext } = React;
 const StatisticCard: React.FunctionComponent = () => {
   const appState = useContext(AppContext);
   const { allData, isLoading } = appState;
+  /**
+   * 总开盘数据
+   */
   const allInfo = util.getAllInfo(allData);
+  /**
+   * 本周开盘数据
+   */
   const thisWeekInfo = util.getThisWeekInfo(allData);
+  /**
+   * 本月开盘数据
+   */
   const thisMonthInfo = util.getThisMonthInfo(allData);
+  /**
+   * 本季度开盘数据
+   */
   const thisQuarterInfo = util.getThisQuarterInfo(allData);
 
   const renderCard = (info: IhouseInfo) => (

@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, useContext } from 'react';
 import _ from 'lodash';
 import dayjs from 'dayjs';
 import { Layout, Col, Row, Tabs, Tag, Timeline } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
-import { RouteComponentProps } from 'react-router';
 
 import utils from '../../utils';
 import BasicAreaGraph from '../../components/BasicAreaGraph';
@@ -17,7 +16,6 @@ import { AppContext } from '../../context/appContext';
 import * as constants from '../../constants';
 import './styles.less';
 
-const { lazy, useContext } = React;
 const { TabPane } = Tabs;
 const { Content } = Layout;
 const CurrentHouse = lazy(() => import('../../components/CurrentHouse'));
@@ -38,7 +36,7 @@ interface ImonthHousePrice {
   [constants.HOUSE_PRICE_MIN]: number;
 }
 
-const Home: React.FunctionComponent<RouteComponentProps> = () => {
+const Home: React.FunctionComponent = () => {
   const { allData } = useContext(AppContext);
   const [desc, changeTimelineDesc] = useState(true);
 
@@ -46,16 +44,31 @@ const Home: React.FunctionComponent<RouteComponentProps> = () => {
   const arrayByMonth = _.groupBy(allData, (item) =>
     dayjs(item.beginTime).format('YYYY-MM')
   );
+
   const arrayByDay = _.groupBy(allData, (item) =>
     dayjs(item.beginTime).format('YYYY-MM-DD')
   );
 
+  /**
+   * 房源数据
+   */
   const houseData: ImonthHouse[] = [];
+  /**
+   * 楼盘数据
+   */
   const builderData: ImonthBuilder[] = [];
+  /**
+   * 房价数据
+   */
   const housePriceData: ImonthHousePrice[] = [];
+
   Object.keys(arrayByMonth)
     .sort()
     .forEach((key) => {
+      // key 2021-05 格式
+      
+      // 统计每个月份的房源总数量
+      // 小区数量 * 每个小区下的楼盘数量
       const houseNumber = _.sumBy(arrayByMonth[key], 'number');
       builderData.push({
         month: key,
@@ -66,6 +79,10 @@ const Home: React.FunctionComponent<RouteComponentProps> = () => {
         [constants.HOUSE_NUMBER]: houseNumber,
       });
 
+      /**
+       * TODO:
+       *  数据中暂无房子价格(price)的数据信息
+       */
       const hasPriceHouses = arrayByMonth[key].filter((house) => house.price);
       if (hasPriceHouses.length > 0) {
         const housePriceMax = _.maxBy(hasPriceHouses, 'price')?.price || 0;
@@ -79,16 +96,25 @@ const Home: React.FunctionComponent<RouteComponentProps> = () => {
     });
 
   // 构建排行数据
+  /**
+   * 楼盘数排行表数据
+   */
   const builderRankData = builderData.map((item) => ({
     _id: utils.getRandomId(),
     name: item.month,
     number: item[constants.BUILDER_NUMBER],
   }));
+  /**
+   * 房源数排行表数据
+   */
   const houseRankData = houseData.map((item) => ({
     _id: utils.getRandomId(),
     name: item.month,
     number: item[constants.HOUSE_NUMBER],
   }));
+  /**
+   * 房价(最高|最低)排行表数据
+   */
   const maxHousePriceRankData = housePriceData.map((item) => ({
     _id: utils.getRandomId(),
     name: `${item.month} 最高价`,
