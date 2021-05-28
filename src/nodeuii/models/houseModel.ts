@@ -3,6 +3,8 @@ import log4js from 'log4js';
 import { FilterQuery } from 'mongoose';
 import DbHelper from '../utils/dbHelper';
 
+type IhouseData = cdFang.IhouseData;
+
 const mongoose = DbHelper.connect();
 const logger = log4js.getLogger('globallog');
 
@@ -112,14 +114,17 @@ const houseModel = {
    *
    *
    * @param {object} [query]
-   * @returns {cdFang.IhouseData[]}
+   * @returns {IhouseData[]}
    */
-  find(query: FilterQuery<cdFang.IhouseData>): cdFang.IhouseData[] {
-    return HouseCol.find(query, err => {
-      if (err) {
-        logger.error(JSON.stringify(err));
-      }
-    });
+  find(query: FilterQuery<IhouseData>): Promise<IhouseData[]> {
+    return new Promise((resolve) => {
+      HouseCol.find(query, (err, docs: IhouseData[]) => {
+        if (err) {
+          logger.error(JSON.stringify(err));
+        }
+        resolve(docs)
+      })
+    })
   }
 };
 

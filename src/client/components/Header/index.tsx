@@ -4,7 +4,7 @@ import { HomeOutlined, CalendarOutlined } from '@ant-design/icons';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import Notice from '../Notice';
-import { tabKeyRouterMap, GITHUB_URL } from '../../constants';
+import { tabKeyRouterMap } from '../../constants';
 import { requestPvs, requestData } from '../../utils/request';
 import { AppContext } from '../../context/appContext';
 import './styles.less';
@@ -15,9 +15,6 @@ const Header: React.FunctionComponent<RouteComponentProps> = ({
   history,
   location,
 }) => {
-  const gotoGithub = () => {
-    window.location.href = GITHUB_URL;
-  };
   const appState = useContext(AppContext);
   const [pvs, changePvs] = useState(0);
 

@@ -4,14 +4,13 @@ import config from '../config';
 interface IallHouses {
   allHouses: cdFang.IhouseData[];
 }
-
 interface Ipvs {
   pvs: number;
 }
 
 const { getGraphqlClient } = config;
 
-export function requestData(year: string, callback: (...args: any[]) => void): void {
+export function requestData(year: string, callback: (allHouses: IallHouses['allHouses']) => void): void {
   const yearParam = year === 'home' ? '0' : year;
 
   getGraphqlClient()
@@ -36,7 +35,7 @@ export function requestData(year: string, callback: (...args: any[]) => void): v
     });
 }
 
-export function requestPvs(callback: (...args: any[]) => void): void {
+export function requestPvs(callback: (pvs: Ipvs['pvs']) => void): void {
   getGraphqlClient()
     .query<Ipvs>({
       query: gql`

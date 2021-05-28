@@ -20,7 +20,7 @@ export default {
     let query = {};
     if (args.year !== 0) {
       const reg = new RegExp(`^${args.year}`);
-      query = { beginTime: reg };
+      query = { beginTime: reg};
     }
 
     let allHouses;

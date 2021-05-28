@@ -1,9 +1,12 @@
+import { reject } from 'lodash';
 import log4js from 'log4js';
 import { FilterQuery } from 'mongoose';
 import DbHelper from '../utils/dbHelper';
 
 const mongoose = DbHelper.connect();
 const logger = log4js.getLogger('globallog');
+
+type Ianalytics = cdFang.Ianalytics;
 
 // 创建数据库
 const analyticsSchema = new mongoose.Schema({
@@ -24,12 +27,15 @@ const analyticsModel = {
     return item;
   },
 
-  find(query: FilterQuery<cdFang.Ianalytics>): cdFang.Ianalytics[] {
-    return AnalyticsCol.find(query, err => {
-      if (err) {
-        logger.error(JSON.stringify(err));
-      }
-    });
+  find(query: FilterQuery<Ianalytics>): Promise<Ianalytics[]> {
+    return new Promise((resolve) => {
+      AnalyticsCol.find(query, (err, docs: Ianalytics[]) => {
+        if (err) {
+          logger.error(JSON.stringify(err));
+        }
+        resolve(docs)
+      });
+    })
   }
 };
 

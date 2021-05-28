@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { AppContext, IappContext } from './appContext';
 
-const AppProvider = ({ children }: React.Props<{ value: IappContext }>) => {
+const AppProvider: React.FC = ({ children }) => {
   const changeData = (data: cdFang.IhouseData[]) => {
     changeAppState((prevState) => ({
       ...prevState,
