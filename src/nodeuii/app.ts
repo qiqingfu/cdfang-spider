@@ -2,13 +2,15 @@ import Koa from 'koa';
 import serve from 'koa-static';
 import log4js from 'log4js';
 import koaBody from 'koa-body';
-
 import ErrorHander from './middleware/ErrorHander';
 import AnalysicsHander from './middleware/AnalysicsHander';
 import controller from './controllers';
+import run from "./config/run"
 import config from './config';
 import './controllers/schedule';
 import initGraphQL from "./graphql";
+
+const INITDATA = false
 
 const app = new Koa();
 app.use(koaBody());
@@ -39,6 +41,8 @@ controller.init(app);
 initGraphQL(app)
 // 静态资源目录
 app.use(serve('client'));
+
+if (INITDATA) run()
 
 // eslint-disable-next-line no-console
 console.log(`server is running at : http://localhost:${config.serverPort}`);
