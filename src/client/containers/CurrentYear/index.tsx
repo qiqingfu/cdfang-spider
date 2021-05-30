@@ -17,9 +17,8 @@ const { Content } = Layout;
 const { TabPane } = Tabs;
 
 const CurrentYear: React.FunctionComponent<RouteComponentProps> = () => {
-  const { allData, activityKey, changeActivityKey, isLoading } = useContext(
-    AppContext
-  );
+  const { allData, activityKey, changeActivityKey, isLoading } =
+    useContext(AppContext);
 
   const areasGroup = _.groupBy(allData, (item: cdFang.IhouseData) => item.area);
   const areasList = Object.keys(areasGroup);
@@ -33,9 +32,8 @@ const CurrentYear: React.FunctionComponent<RouteComponentProps> = () => {
     </TabPane>
   ));
   // 柱状图数据
-  const { chartHouseData, chartBuilderData } = util.getBasicColumnGraphData(
-    allData
-  );
+  const { chartHouseData, chartBuilderData } =
+    util.getBasicColumnGraphData(allData);
   return (
     <Content className="content">
       <div className="content-statistic-card">

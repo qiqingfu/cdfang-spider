@@ -66,7 +66,7 @@ const Home: React.FunctionComponent = () => {
     .sort()
     .forEach((key) => {
       // key 2021-05 格式
-      
+
       // 统计每个月份的房源总数量
       // 小区数量 * 每个小区下的楼盘数量
       const houseNumber = _.sumBy(arrayByMonth[key], 'number');
@@ -130,11 +130,8 @@ const Home: React.FunctionComponent = () => {
   );
 
   // 柱状图数据
-  const {
-    chartHouseData,
-    chartBuilderData,
-    chartHousePriceData,
-  } = utils.getBasicColumnGraphData(allData);
+  const { chartHouseData, chartBuilderData, chartHousePriceData } =
+    utils.getBasicColumnGraphData(allData);
 
   return (
     <Content className="content">

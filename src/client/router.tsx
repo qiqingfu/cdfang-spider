@@ -13,6 +13,6 @@ const Routes: React.FC = () => (
     <Route path="/2018" component={PastYear} exact />
     <Route path="/2017" component={PastYear} exact />
   </Switch>
-)
+);
 
 export default Routes;
